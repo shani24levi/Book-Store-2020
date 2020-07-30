@@ -58,33 +58,6 @@ MySQL :: MySQL()
 
 /**
  *--------------------------------------------------------------------
- *       Class:  MySQL
- *      Method:  MySQL :: ShowTables()
- * Description:  Show tables in database
- *--------------------------------------------------------------------
- */
-//only fot testing
-//void MySQL :: ShowTables()
-//{
-//    /** Add MySQL Query */
-//    mysql_query (connect,"select title from books");                              
-//                                                                          
-//    i = 0;
-//                                                                         
-//    res_set = mysql_store_result(connect);                              
-//                                                                          
-//    unsigned int numrows = mysql_num_rows(res_set);                   
-//                                                                          
-//    cout << " Tables in " << DATABASE << " database " << endl;        
-//                                                                         
-//    while (((row=mysql_fetch_row(res_set)) != NULL))
-//    {                                                                 
-//        cout << row[i] << endl;                                       
-//    }
-//}
-
-/**
- *--------------------------------------------------------------------
  * Description:  1.  Check if a book is in stock
  *--------------------------------------------------------------------
  */
@@ -100,12 +73,17 @@ void MySQL::BookInStoke()
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "Book " << bookName << " NOT Available in stock" << endl<< endl;
+		cout << "+------------------------------------------------------+" << endl;
+		cout << "|   Book " << bookName << " NOT Available in stock     " << endl;
+		cout << "+------------------------------------------------------+" << endl << endl;
 		return;
 	}
+
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "Book " << row[i] << " IS Available in stock" << endl << endl;
+		cout << "+------------------------------------------------------+" << endl;
+		cout << "|   Book " << row[i] << " IS Available in stock       " << endl;
+		cout << "+------------------------------------------------------+" << endl << endl;
 	}
 }
 
@@ -124,13 +102,18 @@ void MySQL::OldestCustomer(){
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "No registered customers" << endl << endl;
+		cout << "+------------------------------------------+" << endl;
+		cout << "|        No registered customers           " << endl;
+		cout << "+------------------------------------------+" << endl << endl;
+
 		return;
 	}
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{	
+		cout << "+--------------------------------------------------------------+" << endl;
+		cout << "|     The oldest customer is " << row[i++] <<" "<< row[i] << endl;
+		cout << "+--------------------------------------------------------------+" << endl << endl;
 
-		cout << "  The oldest customer is " << row[i++] <<" "<< row[i] << endl ;
 
 	}
 }
@@ -148,13 +131,18 @@ std:string str_qury = "select title,available_date from books where available_da
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "There are no books in the stock" << endl << endl;
+		cout << "+----------------------------------------------------+" << endl;
+		cout << "|      There are no books in the stock" << endl;
+		cout << "+----------------------------------------------------+" << endl << endl;
+
 		return;
 	}
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
+		cout << "+-----------------------------------------------------------------------------+" << endl;
+		cout << "|    The oldest book in stock is '" << row[i++] << "' from " << row[i] << endl;
+		cout << "+-----------------------------------------------------------------------------+" << endl << endl;
 
-		cout << "  The oldest book in stock is '" << row[i++] << "' from " << row[i] << endl;
 
 	}
 }
@@ -183,7 +171,7 @@ std:string str_qury = "select first_name,order_complited,order_date,order_id fro
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
 		cout << "+--------------+----------------+--------------------+-------------------+" << endl;
-		cout << "|      "<< row[i++] << "      |   " << row[i++] << "   |        " << row[i++] << "         |        " << row[i++] << "       |      " << endl;
+		cout << "      "<< row[i++] << "           " << row[i++] << "           " << row[i++] << "                 " << row[i++] << "             " << endl;
 		i = 0;
 	}
 	cout << "+--------------+----------------+--------------------+-------------------+" << endl << endl;
@@ -204,12 +192,19 @@ void MySQL::CopiesBook() {
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "Book " << bookName << " never existed in the store" << endl << endl;
+
+		cout << "+-----------------------------------------------------------------------+" << endl;
+		cout << "|        Book " << bookName << " never existed in the store" << endl;
+		cout << "+-----------------------------------------------------------------------+" << endl << endl;
+
 		return;
 	}
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << row[i] << " Copies of book '" << bookName <<"' was sold by the Book Store" << endl << endl;
+		cout << "+------------------------------------------------------------------------------+" << endl;
+		cout << "|      "  << row[i] << "   Copies of book '" << bookName <<"' was sold by the Book Store       " << endl;
+		cout << "+------------------------------------------------------------------------------+" << endl << endl;
+
 	}
 }
 
@@ -230,12 +225,18 @@ void MySQL::PopulArauthor() {
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "There are no books sold on date "<< date1<< " to "<<date2 << endl << endl;
+		cout << "+----------------------------------------------------------------------------------------+" << endl;
+		cout << "|            There are no books sold on date "<< date1<< " to "<<date2 << endl;
+		cout << "+----------------------------------------------------------------------------------------+" << endl << endl;
+
 		return;
 	}
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "The most popular author between date: " << date1 <<" to "<< date2 << "is : " << row[i++] <<" " << row[i] << endl << endl;
+		cout << "+------------------------------------------------------------------------------------------------+" << endl;
+		cout << "|       The most popular author Between  " << date1 <<"  To  "<< date2 << "    Is : " << row[i++] <<" " << row[i] << endl;
+		cout << "+------------------------------------------------------------------------------------------------+" << endl << endl;
+
 	}
 }
 
@@ -283,7 +284,10 @@ void MySQL::MostTranslators() {
 
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "The book with the largest number of translations is: '" << row[i++] << "' with " << row[i] << " translations " << endl << endl;
+		cout << "+--------------------------------------------------------------------------------------------------+" << endl;
+		cout << "|       The book with the largest number of translations is: '" << row[i++] << "' with " << row[i] << " translations " << endl;
+		cout << "+--------------------------------------------------------------------------------------------------+" << endl << endl;
+
 	}
 }
 
@@ -298,7 +302,7 @@ void MySQL::CustomerPurchases() {
 	cin >> firstName;
 	cout << "Enter Last Name: ";
 	cin >> lastName;
-	std::string str_qury = "select b.price,b.title,o.order_status,o.pyment_date,o.order_date from book_list_for_orders bo inner join books b on b.book_id = bo.book_id inner join orders o on bo.order_id = o.order_id inner join customers c on o.customer_id = c.customer_id  WHERE  c.first_name = '" + firstName + "' and c.last_name = '" + lastName + "' and o.order_complited = 'Yes' order by o.pyment_date desc";
+	std::string str_qury = "select b.title,o.order_status,b.price,o.pyment_date,o.order_date from book_list_for_orders bo inner join books b on b.book_id = bo.book_id inner join orders o on bo.order_id = o.order_id inner join customers c on o.customer_id = c.customer_id  WHERE  c.first_name = '" + firstName + "' and c.last_name = '" + lastName + "' and o.order_complited = 'Yes' order by o.pyment_date desc";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
@@ -311,15 +315,15 @@ void MySQL::CustomerPurchases() {
 
 
 	cout << "  Purchasing History of " << firstName << " "<< lastName << " : "<< endl;
-	cout << "+----------------+-------------------+------------------+----------------+----------------+" << endl;
-	cout << "|   Order Date   |    Payment Date   |   Order Status   |   Book Title   |   Book Price   |" << endl;
+	cout << "+----------------+-------------------+------------------+---------------------+-----------------------------+" << endl;
+	cout << "|   Order Date   |    Payment Date   |    Book Price    |     Order Status    |         Book Title          |" << endl;
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "+----------------+-------------------+------------------+----------------+----------------+" << endl;
-		cout << "|  " << row[i++] << "       " << row[i++] << "        " << row[i++] << "            " << row[i++] << "                       " << row[i++] << endl;
+		cout << "+----------------+-------------------+------------------+---------------------+-----------------------------+" << endl;
+		cout << "|  " << row[i++] << "        " << row[i++] << "             " << row[i++] << "             " << row[i++] << "           " << row[i++] << endl;
 		i = 0;
 	}
-	cout << "+----------------+-------------------+------------------+----------------+----------------+" << endl << endl;
+	cout << "+----------------+-------------------+------------------+---------------------+-----------------------------+" << endl<< endl;
 }
 
 /**
@@ -346,15 +350,15 @@ void MySQL::CustomerOrders() {
 
 
 	cout << "  Orders History of " << firstName << " " << lastName << " : " << endl;
-	cout << "+----------------+----------------------+---------------------------+----------------+-----------------+" << endl;
-	cout << "|   Order Date   |    Order Complited   |    Book Amount In Stock   |   Book Price   |    Book Title   |" << endl;
+	cout << "+----------------+----------------------+---------------------------+----------------+---------------------------+" << endl;
+	cout << "|   Order Date   |    Order Complited   |    Book Amount In Stock   |   Book Price   |         Book Title        |" << endl;
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "+----------------+----------------------+---------------------------+----------------+-----------------+" << endl;
+		cout << "+----------------+----------------------+---------------------------+----------------+---------------------------+" << endl;
 		cout << "|  " << row[i++] << "               " << row[i++] << "                      " << row[i++] << "                   " << row[i++] << "            " << row[i++] << endl;
 		i = 0;
 	}
-	cout << "+----------------+----------------------+---------------------------+----------------+-----------------+" << endl;
+	cout << "+----------------+----------------------+---------------------------+----------------+---------------------------+" << endl;
 }
 
 /**
@@ -363,7 +367,15 @@ void MySQL::CustomerOrders() {
  *--------------------------------------------------------------------
  */
 void MySQL::FreightCost() {
-	std::string str_qury = "select ( (b.price + b.weight) * o.amount) AS total_price_fer_order, bo.order_id from book_list_for_orders bo inner join orders o on o.order_id = bo.order_id inner join books b on b.book_id = bo.book_id GROUP BY  o.order_id order by bo.order_id asc";
+	std::string address, num , city;
+	cout << "Enter Address of Delivey: ";
+	cin >> address;
+	cout << "Enter Address Number of Delivey: ";
+	cin >> num;
+	cout << "Enter City of Delivey: ";
+	cin >> city;
+	// '" + firstName + "'
+	std::string str_qury = "select  sum( (b.price + b.weight +ExtraXpress)),d.address,city,d.delivery_id  from book_list_for_orders bo inner join orders o on o.order_id = bo.order_id inner join books b on b.book_id = bo.book_id inner join  customers c on o.customer_id = c.customer_id inner join  delivery d on d.delivery_id = bo.delivery_id inner join  delivery_for_orders dd on dd.delivery_id = d.delivery_id WHERE d.address = '" + address + "' and num_address = '" + num + "' and city = '" + city + "' GROUP BY  d.delivery_id order by d.delivery_id asc";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
@@ -372,15 +384,15 @@ void MySQL::FreightCost() {
 
 
 	cout << " Shipping cost calculation : " << endl;
-	cout << "+--------------+------------------------------+" << endl;
-	cout << "|   Order Id   |          Total Price         |" << endl;
+	cout << "+-----------------+-----------------------+--------------------------+---------------------------+" << endl;
+	cout << "|   Delivery Id   |   City For Delivery   |   Address For Delivery   |    Total Delivery Price   | " << endl;
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "+--------------+------------------------------+" << endl;
-		cout << "|     " << row[i++] << "          " << row[i++] <<endl;
+		cout << "+-----------------+-----------------------+--------------------------+---------------------------+" << endl;
+		cout << "|        " << row[i++] << "              " << row[i++] << "                 " << row[i++] << "                  " << row[i++] <<endl;
 		i = 0;
 	}
-	cout << "+--------------+------------------------------+" << endl;
+	cout << "+-----------------+-----------------------+--------------------------+---------------------------+" << endl << endl;
 }
 
 /**
@@ -426,25 +438,30 @@ void MySQL::SateusDelivery() {
 	std::string mobile, address,city;
 	cout << "Enter Customer Phone: ";
 	cin >> mobile;
-	//cout << "Enter Address For Delivey: ";
-	//cin >> address;
-	//cout << "Enter City For Delivey: ";
-	//cin >> city;
-	// '" + firstName + "'
-	std::string str_qury = "select dfo.delivery_status  from delivery_for_orders dfo inner join delivery d on d.delivery_id = dfo.delivery_id inner join orders o on o.order_id = dfo.order_id inner join customers c on o.customer_id = c.customer_id WHERE  c.mobile = '" + mobile + "' "; // and d.address = '" + address + "' and d.city = '" + city + "' ";
+	cout << "Enter Address For Delivey: ";
+	cin >> address;
+	cout << "Enter City For Delivey: ";
+	cin >> city;
+	std::string str_qury = "select dfo.delivery_status  from delivery_for_orders dfo inner join delivery d on d.delivery_id = dfo.delivery_id inner join orders o on o.order_id = dfo.order_id inner join customers c on o.customer_id = c.customer_id WHERE  c.mobile = '" + mobile + "' and d.address = '" + address + "' and d.city = '" + city + "' ";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "No delivery was found according to the data" << endl << endl;
+		cout << "+-----------------------------------------------------------------------+" << endl;
+		cout << "|       No delivery was found according to the data" << endl;
+		cout << "+-----------------------------------------------------------------------+" << endl << endl;
+
 		return;
 	}
 
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "Delivery to " << address << ", " << city << " Status is: " << row[i] << endl << endl;
+		cout << "+-----------------------------------------------------------------------------------------+" << endl;
+		cout << "|      Delivery to " << address << " at " << city << " Status is: " << row[i] << endl;
+		cout << "+-----------------------------------------------------------------------------------------+" << endl << endl;
+
 	}
 
 
@@ -460,20 +477,27 @@ void MySQL::AmountXpress() {
 	cin >> month;
 	cout << "Enter Year: ";
 	cin >> year;
-	std::string str_qury = "SELECT count(MONTH(delivery_date)) from delivery_for_orders dfo inner join delivery d on d.delivery_id = dfo.delivery_id inner join orders o on o.order_id = dfo.order_id WHERE  o.shipment = 'Xpress' and MONTH(delivery_date) = '" + month + "' and Year(delivery_date) = '" + year + "' order by delivery_date desc";
+	// '" + month + "'
+	std::string str_qury = "SELECT count(MONTH(delivery_date)) from delivery_for_orders dfo inner join orders o on o.order_id = dfo.order_id WHERE  dfo.shipment = 'Xpress' and MONTH(delivery_date) = '" + month + "' and Year(delivery_date) = '" + year + "' order by delivery_date desc";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "No delivery was made in a month" << endl << endl;
+		cout << "+------------------------------------------------------------+" << endl;
+		cout << "|         No delivery was made in a month" << endl;
+		cout << "+------------------------------------------------------------+" << endl << endl;
+
 		return;
 	}
 
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "The amount of shipments made by Xpress is : " << row[i] << endl << endl;
+		cout << "+-----------------------------------------------------------------------------------+" <<endl;
+		cout << "|        The Amount Of Shipments made by Xpress is : " << row[i] << endl;
+		cout << "+-----------------------------------------------------------------------------------+" << endl << endl;
+
 	}
 }
 /**
@@ -495,13 +519,19 @@ void MySQL::AmountBit() {
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 	if (numrows == 0) {
-		cout << "No payment was transferred per bit this month" << endl << endl;
+		cout << "+--------------------------------------------------------------------------+"  << endl;
+		cout << "|          No payment was transferred per bit this month" << endl;
+		cout << "+---------------------------------------------------------------------------+" << endl << endl;
+
 		return;
 	}
 
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
-		cout << "The amount of money transferred in payment per bit is : " << row[i] << endl << endl;
+		cout << "+-----------------------------------------------------------------------------------------+"<< endl;
+		cout << "|           The amount of money transferred in payment per bit is : " << row[i] << endl;
+		cout << "+-----------------------------------------------------------------------------------------+" << endl << endl;
+
 	}
 }
 /**
@@ -523,7 +553,7 @@ void MySQL::TransactionsLargeProfit() {
 
 	cout << "Transactions at a larger profit than the annual average : " << endl;
 	cout << "+-----------------------+---------------------+" << endl;
-	cout << "|   Transaction Price   |    Transaction Id   |" << endl;
+	cout << "|   Transaction Id   |    Transaction Price   |" << endl;
 	while (((row = mysql_fetch_row(res_set)) != NULL))
 	{
 		cout << "+-----------------------+---------------------+" << endl;
@@ -538,7 +568,7 @@ void MySQL::TransactionsLargeProfit() {
  *-------------------------------------------------------------------------------------------------
  */
 void MySQL::QuantityDeliveries() {
-	std::string str_qury = "SELECT count(o.shipment),o.shipment from delivery_for_orders dfo inner join delivery d on d.delivery_id = dfo.delivery_id inner join orders o on o.order_id = dfo.order_id WHERE delivery_date between '2019-07-01' and now() GROUP BY  o.shipment HAVING COUNT(o.shipment) >= 1 order by o.shipment";
+	std::string str_qury = "SELECT count(dfo.shipment),dfo.shipment from delivery_for_orders dfo inner join delivery d on d.delivery_id = dfo.delivery_id inner join orders o on o.order_id = dfo.order_id WHERE dfo.delivery_date between '2019-07-01' and now() GROUP BY  dfo.shipment HAVING COUNT(dfo.shipment) >= 1 order by dfo.shipment";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
@@ -562,7 +592,7 @@ void MySQL::QuantityDeliveries() {
  *--------------------------------------------------------------------
  */
 void MySQL::Deliveries2editions() {
-	std::string str_qury = "SELECT address,city,delivery_date,d.delivery_id from delivery_for_orders dfo inner join delivery d on d.delivery_id = dfo.delivery_id inner join orders o on o.order_id = dfo.order_id inner join book_list_for_orders blo on o.order_id = blo.order_id inner join publisher p on p.publisher_id = blo.publisher_id inner join books b on b.book_id = blo.book_id group by b.book_id, d.delivery_id HAVING  MAX(p.edition) > MIN(p.edition) ";
+	std::string str_qury = "SELECT address,city,dfo.delivery_date,d.delivery_id from delivery_for_orders dfo inner join delivery d on d.delivery_id = dfo.delivery_id inner join orders o on o.order_id = dfo.order_id inner join book_list_for_orders blo on o.order_id = blo.order_id inner join publisher p on p.publisher_id = blo.publisher_id inner join books b on b.book_id = blo.book_id group by b.book_id, d.delivery_id HAVING  MAX(p.edition) > MIN(p.edition) ";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
@@ -610,7 +640,7 @@ void MySQL::NotPurchased24() {
  *---------------------------------------------------------------------------------------------------
  */
 void MySQL::ContactingCustomer() {
-	std::string str_qury = "";
+	std::string str_qury = "SELECT  c.mobile,c.last_name,c.first_name FROM orders o inner join customers c on o.customer_id = c.customer_id inner join contacts cc on cc.order_id = o.order_id inner join book_list_for_orders bl on o.order_id = bl.order_id inner join books b on bl.book_id = b.book_id WHERE cc.days_pass < 14 and cc.purchased = 'Not Purchased' group by o.customer_id HAVING  COUNT(o.customer_id) > 0 order by o.customer_id";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
