@@ -44,7 +44,6 @@
 int main(void)
 {
     MySQL Mysql;
-
 	int i=0;
 	while (i != 99)
 	{

@@ -56,6 +56,39 @@ MySQL :: MySQL()
     }
 }
 
+
+void MySQL::t()
+{
+	cout << "Enter Book Name: ";
+	cin >> bookName;
+	// '" + bookName + "'
+std:string str_qury = "select sum((o.amount*-1)+of.amount),b.title from books b inner join book_list_for_orders bl on bl.book_id = b.book_id inner join orders o on bl.order_id = o.order_id inner join manager_control m on m.order_id = o.order_id inner join orders_from_provider of on m.order_provider_id = of.order_provider_id where of.purchas_date >= '2020-01-01' and of.purchas_date < now() and title = '" + bookName + "' GROUP BY of.purchas_date ORDER BY of.purchas_date desc";
+	mysql_query(connect, str_qury.c_str());
+
+	i = 0;
+	res_set = mysql_store_result(connect);
+	unsigned int numrows = mysql_num_rows(res_set);
+	if (numrows == 0) {
+		cout << "+------------------------------------------------------+" << endl;
+		cout << "|   Book " << bookName << " NOT Available in stock     " << endl;
+		cout << "+------------------------------------------------------+" << endl << endl;
+		return;
+	}
+
+	while (((row = mysql_fetch_row(res_set)) != NULL))
+	{
+		if (row[i++] < 0) {
+			cout << "+------------------------------------------------------+" << endl;
+			cout << "|   Book " << row[i] << " IS NOT Available in stock       " << endl;
+			cout << "+------------------------------------------------------+" << endl << endl;
+			return;
+		}
+		cout << "+------------------------------------------------------+" << endl;
+		cout << "|   Book " << row[i] << " IS Available in stock       " << endl;
+		cout << "+------------------------------------------------------+" << endl << endl;
+	}
+}
+
 /**
  *--------------------------------------------------------------------
  * Description:  1.  Check if a book is in stock
@@ -725,7 +758,7 @@ void MySQL::ProfitSales() {
 	cout << "Enter Year: ";
 	cin >> year;
 	//'" + firstName + "'
-	std::string str_qury = "SELECT ( sum(price_for_order) - sum(purchas_price)) as profit FROM manager_control t inner join managment m on m.managment_id = t.managment_id inner join orders_from_provider p on p.order_provider_id = t.order_provider_id inner join orders o on o.order_id = t.order_id WHERE  m.month_ = '" + month + "' and m.year_ = '" + year + "'";
+	std::string str_qury = "SELECT ( sum(price_for_order) - sum(purchas_price)) as profit  FROM manager_control t inner join managment m on  m.managment_id = t.managment_id LEFT JOIN orders_from_provider p on  p.order_provider_id = t.order_provider_id LEFT JOIN orders o  on o.order_id = t.order_id WHERE  m.month_ = '" + month + "' and m.year_ = '" + year + "'";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
