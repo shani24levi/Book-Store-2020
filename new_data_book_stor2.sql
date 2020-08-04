@@ -233,8 +233,8 @@ FOREIGN KEY (order_id) REFERENCES orders (order_id)
 CREATE TABLE manager_control
 
 (
-order_provider_id  smallint unsigned,
-order_id smallint unsigned,
+order_provider_id  smallint unsigned default 0,
+order_id smallint unsigned default 0,
 managment_id smallint unsigned,
  FOREIGN KEY (order_id) REFERENCES orders (order_id),
  FOREIGN KEY (order_provider_id) REFERENCES orders_from_provider (order_provider_id),

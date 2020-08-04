@@ -3,6 +3,16 @@ use book_store_2;
 -- 1  Check if a book is in stock
 select title,amount from books where title = 'Orope' and amount > 0;
 
+SELECT *
+FROM manager_control t
+inner join managment m on  m.managment_id = t.managment_id
+LEFT JOIN orders_from_provider p on  p.order_provider_id = t.order_provider_id
+LEFT JOIN orders o  on o.order_id = t.order_id
+LEFT JOIN book_list_for_orders bb on  bb.order_id = o.order_id
+
+
+ ;
+
 -- 2  
 SELECT first_name, last_name from customers 
 WHERE join_date >= '2000-01-01'
@@ -313,22 +323,20 @@ SELECT sum(amount) as total_amount, sum(purchas_price) as total_paid FROM orders
 WHERE purchas_date >=  '2020-01-01'  and  purchas_date < now() 
 ;
 
+-- SELECT * FROM orders
+--  WHERE  month(pyment_date) = 6  and  year(pyment_date)= 2019;
+--  
+--  SELECT * FROM orders_from_provider
+--  WHERE  month(purchas_date) = 6  and  year(purchas_date)= 2019;
 
 -- 23   
-SELECT ( sum(price_for_order) - sum(purchas_price)) as profit FROM manager_control t
-inner join managment m
-on 
-	m.managment_id = t.managment_id
-inner join orders_from_provider p
-on 
-	p.order_provider_id = t.order_provider_id
-inner join orders o
-on
-	o.order_id = t.order_id
-WHERE  m.month_ = 6  and  m.year_ = 2019
 
- -- WHERE MONTH(date_date) = 6  and  YEAR(date_date) = 2019
-
+SELECT ( sum(price_for_order) - sum(purchas_price)) as profit 
+FROM manager_control t
+inner join managment m on  m.managment_id = t.managment_id
+LEFT JOIN orders_from_provider p on  p.order_provider_id = t.order_provider_id
+LEFT JOIN orders o  on o.order_id = t.order_id
+ WHERE  m.month_ = 6  and  m.year_ = 2019
 ;
 
 -- 24 

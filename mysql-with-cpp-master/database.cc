@@ -758,12 +758,16 @@ void MySQL::ProfitSales() {
 	cout << "Enter Year: ";
 	cin >> year;
 	//'" + firstName + "'
-	std::string str_qury = "SELECT ( sum(price_for_order) - sum(purchas_price)) as profit  FROM manager_control t inner join managment m on  m.managment_id = t.managment_id LEFT JOIN orders_from_provider p on  p.order_provider_id = t.order_provider_id LEFT JOIN orders o  on o.order_id = t.order_id WHERE  m.month_ = '" + month + "' and m.year_ = '" + year + "'";
+	std::string str_qury = "SELECT  ifnull( sum(price_for_order) - sum(purchas_price) , 0) as profit  FROM manager_control t inner join managment m on  m.managment_id = t.managment_id LEFT JOIN orders_from_provider p on  p.order_provider_id = t.order_provider_id LEFT JOIN orders o  on o.order_id = t.order_id WHERE  m.month_ = '" + month + "' and m.year_ = '" + year + "'";
 	mysql_query(connect, str_qury.c_str());
 
 	i = 0;
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
+	if (numrows == 0) {
+		cout << "There are no Propite or price from this dates" << endl << endl;
+		return;
+	}
 
 	cout << "+-----------+-----------+-------------------+" << endl;
 	cout << "|   Month   |    Year   |    Store Profit   |" << endl;
@@ -824,6 +828,11 @@ void MySQL::GrossSalary() {
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
 
+	if (numrows == 0) {
+		cout << "No matched fo employee in  " << month << " of year " << year << endl << endl;
+		return;
+	}
+
 	cout << endl;
 	cout << "Gross salary of "<< firstName << " " << lastName <<" : " << endl;
 	cout << "+-----------+-----------+-------------------+" << endl;
@@ -854,6 +863,7 @@ void MySQL::SellerSales() {
 	i = 0;
 	res_set = mysql_store_result(connect);
 	unsigned int numrows = mysql_num_rows(res_set);
+
 	if (numrows == 0) {
 		cout << "No sales per month " << month << " of year " << year << endl << endl;
 		return;
